@@ -88,7 +88,7 @@ public class HuffmanDemo {
 			ftbl.add(sym);
 
 		in.close();
-		System.out.println("Entropy: " + ftbl.entropy());
+		System.out.format("Entropy: %.2f\n", ftbl.entropy());
 	}
 
 	public static void usage() {
