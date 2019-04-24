@@ -6,6 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * This project was edited by Dong Wang
+ * I add gui to show Huffman Compression by javafx
+ */
+
 public class UiController extends Application {
 
     public void start(Stage primaryStage) throws Exception {
