@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="huffman">
+    <output-path>$PROJECT_DIR$/classes/artifacts/huffman</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="com.group8.project.ui.UiController" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="JHufCompression" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="huffman.jar">
+        <element id="module-output" name="huffman" />
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:id="tabPane"
+         tabClosingPolicy="UNAVAILABLE"
+         fx:controller="com.group8.project.ui.UiController"
+         prefHeight="320" prefWidth="700">
+    <Tab fx:id="compressTab" text="Compress">
+        <fx:include fx:id="compressPage" source="compressPage.fxml"/>
+    </Tab>
+    <Tab fx:id="decompressTab" text="Decompress">
+        <fx:include fx:id="decompressPage" source="decompressPage.fxml"/>
+    </Tab>
+
+</TabPane>
