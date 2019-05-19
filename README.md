@@ -10,4 +10,7 @@ When you want to decompress file, select the decompression tab. Drag the compres
 
 Running effect
 ------
+### Compression
 ![](https://github.com/wangdong20/huffman/blob/master/HuffmanSample.gif?raw=true)
+### Decompression
+![](https://github.com/wangdong20/huffman/blob/master/HuffmanDecompressSample.gif?raw=true)
