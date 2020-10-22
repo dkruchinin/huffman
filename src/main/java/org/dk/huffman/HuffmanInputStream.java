@@ -16,6 +16,8 @@ public class HuffmanInputStream extends FilterInputStream {
 	protected byte[] segment;
 	protected int bytesRead;
 	protected boolean eof;
+	protected boolean isReadFileName = false;
+	protected String fileName;
 	
 	/**
 	 * Initialize the huffman input stream.
@@ -26,6 +28,7 @@ public class HuffmanInputStream extends FilterInputStream {
 		bytesRead = 0;
 		segment = null;
 		eof = false;
+		isReadFileName = false;
 	}
 	
 	@Override
@@ -61,10 +64,26 @@ public class HuffmanInputStream extends FilterInputStream {
 		
 		return rdLen;
 	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	private String readFileName(DataInputStream dataIn) throws IOException {
+		byte length = dataIn.readByte();
+		byte[] data = new byte[length];
+
+		dataIn.read(data);
+		return new String(data);
+	}
 	
 	// read next huffman segment
 	protected void readSegment() throws IOException {
 		DataInputStream dataIn = new DataInputStream(in);
+		if(!isReadFileName) {
+			fileName = readFileName(dataIn);
+			isReadFileName = true;
+		}
 		
 		try {
 			// ensure that segment header is valid

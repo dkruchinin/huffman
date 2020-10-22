@@ -21,6 +21,8 @@ import java.io.*;
 public class HuffmanOutputStream extends FilterOutputStream {
 	protected byte[] segment;
 	protected int bytesWritten;
+	protected boolean isWriteFileName = false;
+	protected String fileName;
 
 	/**
 	 * Initialize a huffman output stream.
@@ -32,6 +34,22 @@ public class HuffmanOutputStream extends FilterOutputStream {
 	public HuffmanOutputStream(OutputStream out) {
 		super(out);
 		constructHuffman(HuffmanConsts.DEFAULT_SEGMENT_SIZE_KB);
+		isWriteFileName = false;
+	}
+
+	/**
+	 * Initialize a huffman output stream.
+	 * Note: default segment size will be used for buffer
+	 * @param out	parent output stream
+	 * @param fileName     file name of origin file
+	 * @see FilterOutputStream
+	 * @see HuffmanConsts
+	 */
+	public HuffmanOutputStream(OutputStream out, String fileName) {
+		super(out);
+		constructHuffman(HuffmanConsts.DEFAULT_SEGMENT_SIZE_KB);
+		this.fileName = fileName;
+		isWriteFileName = false;
 	}
 
 	/**
@@ -44,11 +62,13 @@ public class HuffmanOutputStream extends FilterOutputStream {
 	public HuffmanOutputStream(OutputStream out, int bufsizeKB) {
 		super(out);
 		constructHuffman(bufsizeKB);
+		isWriteFileName = false;
 	}
 	
 	private void constructHuffman(int segmentSizeKb) {
 		segment = new byte[segmentSizeKb * 1024];
 		bytesWritten = 0;
+		isWriteFileName = false;
 	}
 	
 	/**
@@ -60,6 +80,11 @@ public class HuffmanOutputStream extends FilterOutputStream {
 	
 	@Override
 	public void write(int b) throws IOException {
+		if(!isWriteFileName && !fileName.isEmpty()) {
+			writeFileName(fileName);
+			isWriteFileName = true;
+		}
+
 		segment[bytesWritten++] = (byte) b;
 		if (bytesWritten == segment.length)
 			writeSegment();
@@ -69,8 +94,17 @@ public class HuffmanOutputStream extends FilterOutputStream {
 	public void flush() throws IOException {
 		writeSegment();
 	}
+
+	private void writeFileName(String fileName) throws IOException {
+		if(!fileName.isEmpty()) {
+			DataOutputStream dataOut = new DataOutputStream(out);
+			dataOut.writeByte(fileName.getBytes().length);
+			dataOut.write(fileName.getBytes());
+		}
+	}
 	
 	protected void writeSegment() throws IOException {
+		DataOutputStream dataOut = new DataOutputStream(out);
 		if (bytesWritten == 0)
 			return;
 
@@ -81,7 +115,6 @@ public class HuffmanOutputStream extends FilterOutputStream {
 			freqTable.add(segment[i]);
 
 		// write segment header at first
-		DataOutputStream dataOut = new DataOutputStream(out);
 		dataOut.writeInt(HuffmanConsts.HUFFMAN_MAGIC1);
 		dataOut.writeInt(bytesWritten);
 		freqTable.save(dataOut);
